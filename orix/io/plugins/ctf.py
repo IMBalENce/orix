@@ -162,7 +162,7 @@ def _get_header(file: TextIOWrapper) -> List[str]:
 
 
 def _get_vendor_columns(header: List[str], n_cols_file: int) -> Tuple[str, List[str]]:
-    """Return the .ang file column names and vendor, determined from the
+    """Return the .ctf file column names and vendor, determined from the
     header.
 
     Parameters
@@ -273,8 +273,8 @@ def _get_vendor_columns(header: List[str], n_cols_file: int) -> Tuple[str, List[
             f"Number of columns, {n_cols_file}, in the file is not equal to "
             f"the expected number of columns, {n_cols_expected}, for the \n"
             f"assumed vendor '{vendor}'. Will therefore assume the following "
-            "columns: euler1, euler2, euler3, x, y, unknown1, unknown2, "
-            "phase_id, unknown3, unknown4, etc."
+            "columns: phase_id, x, y, bands, error, euler1, euler2, euler3"
+            "MAD, BC, BS, etc."
         )
         vendor = "unknown"
         vendor_column_names = column_names[vendor][0]
@@ -318,13 +318,7 @@ def _get_phases_from_header(
     point group. This function have been tested with files from the
     following vendor's formats: Oxford AZtec HKL, and EMsoft v4/v5.
     """
-    # regexps = {
-    #     "id": "# Phase([ \t]+)([0-9 ]+)",
-    #     "name": "# MaterialName([ \t]+)([A-z0-9 ]+)",
-    #     "formula": "# Formula([ \t]+)([A-z0-9 ]+)",
-    #     "point_group": "# Symmetry([ \t]+)([A-z0-9 ]+)",
-    #     "lattice_constants": r"# LatticeConstants([ \t+])(.*)",
-    # }
+    
     phases = {
         "name": [],
         "space_group": [],
