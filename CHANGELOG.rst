@@ -11,6 +11,36 @@ Unreleased
 
 Added
 -----
+
+Changed
+-------
+
+Removed
+-------
+
+Deprecated
+----------
+
+Fixed
+-----
+
+
+2024-04-21 - version 0.12.1
+===========================
+
+Fixed
+-----
+- ``ax2qu`` and ``Quaternion.from_axes_angles()`` would raise if the input arrays were
+  broadcastable but the final dimension was ``1``. This has been fixed.
+- ``Phase.from_cif()`` now correctly adjusts atom positions when forcing
+  ``Phase.structure.lattice.base`` to use the crystal axes alignment ``e1 || a``,
+  ``e3 || c*``. This bug was introduced in 0.12.0.
+
+2024-04-13 - version 0.12.0
+===========================
+
+Added
+-----
 - ``Vector3d.from_path_ends()`` class method to get vectors between two vectors.
 - Convenience function ``plot.format_labels()`` to get nicely formatted vector labels to
   use when plotting vectors.
@@ -24,11 +54,28 @@ Added
 - Creating neo-eulerian vectors from quaternions via new methods ``to_axes_angles()``,
   ``to_rodrigues()`` and ``to_homochoric()``. Rodrigues-Frank vectors can be returned
   from ``to_rodrigues()`` by passing ``frank=True``.
+- ``inv()`` method for ``Quaternion``, ``Rotation``, ``Orientation``, and
+  ``Misorientation``. For the three first, its behavior is identical to the inversion
+  operator ``~``. For misorientations, it inverts the direction of the transformation.
+  Convenient for chaining operations.
+- The ``random()`` methods of ``Orientation`` and ``Misorientation`` now accept
+  ``symmetry``. A ``random()`` method is also added to ``Vector3d`` and ``Miller``, the
+  latter accepting a ``phase``.
+- Function ``orix.sampling.get_sample_reduced_fundamental()`` for sampling rotations
+  that rotate the Z-vector (0, 0, 1) onto the fundamental sector of the Laue group of a
+  given ``Symmetry``.
 
 Changed
 -------
 - The ``convention`` parameter in ``from_euler()`` and ``to_euler()`` will be removed in
   the next minor release, 0.13, instead of release 1.0 as previously stated.
+- Allow passing a tuple of integers to ``reshape()`` methods of 3D objects.
+- ``random()`` methods no longer accept a list as a valid shape: pass a tuple instead.
+- Increase minimal version of Matplotlib to >= 3.5.
+
+Removed
+-------
+- Support for Python 3.7.
 
 Deprecated
 ----------
@@ -36,13 +83,13 @@ Deprecated
   and will be removed in v0.13. Use the existing ``from_axes_angles()`` and the new
   ``from_rodrigues()`` and ``from_homochoric()`` instead.
 
-Removed
--------
-
 Fixed
 -----
 - Transparency of polar stereographic grid lines can now be controlled by Matplotlib's
   ``grid.alpha``, just like the azimuth grid lines.
+- Previously, ``Phase`` did not adjust atom positions when forcing
+  ``Phase.structure.lattice.base`` to use the crystal axes alignment ``e1 || a``,
+  ``e3 || c*``. This is now fixed.
 
 2023-03-14 - version 0.11.1
 ===========================
